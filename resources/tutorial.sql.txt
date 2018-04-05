@@ -1,0 +1,87 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema hb_01_one_to_one_uni
+-- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `hb_01_one_to_one_uni` ;
+
+-- -----------------------------------------------------
+-- Schema hb_01_one_to_one_uni
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `hb_01_one_to_one_uni` DEFAULT CHARACTER SET latin1 ;
+-- -----------------------------------------------------
+-- Schema hb_student_tracker
+-- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `hb_student_tracker` ;
+
+-- -----------------------------------------------------
+-- Schema hb_student_tracker
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `hb_student_tracker` DEFAULT CHARACTER SET latin1 ;
+USE `hb_01_one_to_one_uni` ;
+
+-- -----------------------------------------------------
+-- Table `hb_01_one_to_one_uni`.`instructor_detail`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `hb_01_one_to_one_uni`.`instructor_detail` ;
+
+CREATE TABLE IF NOT EXISTS `hb_01_one_to_one_uni`.`instructor_detail` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `youtube_channel` VARCHAR(128) NULL DEFAULT NULL,
+  `hobby` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 3
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `hb_01_one_to_one_uni`.`instructor`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `hb_01_one_to_one_uni`.`instructor` ;
+
+CREATE TABLE IF NOT EXISTS `hb_01_one_to_one_uni`.`instructor` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `first_name` VARCHAR(45) NULL DEFAULT NULL,
+  `last_name` VARCHAR(45) NULL DEFAULT NULL,
+  `email` VARCHAR(45) NULL DEFAULT NULL,
+  `instructor_detail_id` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `FK_DETAIL_idx` (`instructor_detail_id` ASC),
+  CONSTRAINT `FK_DETAIL`
+    FOREIGN KEY (`instructor_detail_id`)
+    REFERENCES `hb_01_one_to_one_uni`.`instructor_detail` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 3
+DEFAULT CHARACTER SET = latin1;
+
+USE `hb_student_tracker` ;
+
+-- -----------------------------------------------------
+-- Table `hb_student_tracker`.`student`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `hb_student_tracker`.`student` ;
+
+CREATE TABLE IF NOT EXISTS `hb_student_tracker`.`student` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `first_name` VARCHAR(45) NULL DEFAULT NULL,
+  `last_name` VARCHAR(45) NULL DEFAULT NULL,
+  `email` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 7
+DEFAULT CHARACTER SET = latin1;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
